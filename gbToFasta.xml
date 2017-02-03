@@ -28,7 +28,7 @@
       </inputs>
       <outputs>
             <data format="fasta" name="outputfa" label="${tool.name} on ${on_string}:fasta"></data>
-            <data format="fasta" name="outputcds" label="${tool.name} on ${on_string}:cds">
+            <data format="tabular" name="outputcds" label="${tool.name} on ${on_string}:cds">
                   <filter>cds == "yes"</filter>
             </data>
       </outputs>
