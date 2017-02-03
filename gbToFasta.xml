@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<tool id="gbtofasta" name="gbToFasta" version="1.0">
+    <description>Convert GenBank records to fasta and Create table with coding regions information for each mRNA record</description>
+    <requirements>
+      <requirement type="package" version="1.0">ucsc_tools_340_for_BLAT</requirement>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+    gbToFaRa
+            /dev/null
+            '${outputfa}'
+            outputra
+            outputta
+            '${gbfile}'
+      #if $cds == "yes"
+            && raToTab
+                  -cols=acc,cds
+                  outputra
+                  '${outputcds}'
+      #end if
+]]></command>
+      <inputs>
+            <param type="data" name="gbfile" format="genbank" />
+            <param type="select" name="cds" label="Create table with coding regions information for each mRNA record" >
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+            </param>
+                  
+      </inputs>
+      <outputs>
+            <data format="fasta" name="outputfa" label="${tool.name} on ${on_string}:fasta"></data>
+            <data format="fasta" name="outputcds" label="${tool.name} on ${on_string}:cds">
+                  <filter>cds == "yes"</filter>
+            </data>
+      </outputs>
+  <tests>
+      <test>
+            <param name="gbfile" value="Gallus_gallus_RefSeq.gb" />
+            <param name="cds" value="yes" />
+            <output name="outputfa" value="Gallus_gallus_RefSeq.fa" />
+            <output name="outputcds" value="Gallus_gallus_RefSeq.cds" />
+      </test>
+      <test>
+            <param name="gbfile" value="Gallus_gallus_RefSeq.gb" />
+            <param name="cds" value="no" />
+            <output name="outputfa" value="Gallus_gallus_RefSeq.fa" />
+      </test>
+  </tests> 
+  <help>
+        <![CDATA[
+gbToFasta
+=========
+
+Convert GenBank records to fasta
+---------------------------------
+
+gbToFaRa - Convert GenBank flat format file to an fa file containing
+the sequence data, an ra file containing other relevant info and
+a ta file containing summary statistics.
+usage:
+   gbToFaRa filterFile faFile raFile taFile genBankFile(s)
+where filterFile is definition of which records and fields
+use /dev/null if you want no filtering.
+
+gbToFaRa /dev/null gbfile.fa \
+  gbfile.ra gbfile.ta gbfile
+
+Create table with coding regions information for each mRNA record
+-----------------------------------------------------------------
+raToTab - Convert ra file to table.
+raToTab -cols=acc,cds gbfile.ra gbfile.cds
+
+Source code:
+============
+
+http://hgdownload.cse.ucsc.edu/admin/exe/
+
+]]></help> 
+ <citations>
+            <citation type="bibtex">@article{kent2002blat,
+                  title={BLAT—the BLAST-like alignment tool},
+                  author={Kent, W James},
+                  journal={Genome research},
+                  volume={12},
+                  number={4},
+                  pages={656--664},
+                  year={2002},
+                  publisher={Cold Spring Harbor Lab}
+            }</citation>
+      </citations> 
+      
+</tool>
+             
+            
+
+               
+    

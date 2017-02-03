@@ -1,0 +1,10 @@
+name: gbtofasta
+owner: yating-l
+description: Convert GenBank records to fasta and Create table with coding regions information for each mRNA record
+homepage_url: http://hgdownload.cse.ucsc.edu/admin/exe/
+type: unrestricted
+categories: 
+- Convert Formats
+exclude:
+  - tool_test_output.html
+  - tool_test_output.json
