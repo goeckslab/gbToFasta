@@ -15,7 +15,8 @@
             && raToTab
                   -cols=acc,cds
                   outputra
-                  '${outputcds}'
+                  cds_file
+            && python $__tool_directory__/filter.py -f cds_file -o '${outputcds}'
       #end if
 ]]></command>
       <inputs>
