@@ -11,6 +11,17 @@
             outputra
             outputta
             '${gbfile}'
+    &&
+    raToTab
+            -cols=acc,def
+            outputra
+            outputinfo
+    &&
+    ixIxx
+            outputinfo
+            ${index_ix}
+            index_ixx
+            
       #if $cds == "yes"
             && raToTab
                   -cols=acc,cds
@@ -29,6 +40,7 @@
       </inputs>
       <outputs>
             <data format="fasta" name="outputfa" label="${tool.name} on ${on_string}:fasta"></data>
+            <data format="txt" name="index_ix" label="${tool.name} on ${on_string}:txt"></data>
             <data format="tabular" name="outputcds" label="${tool.name} on ${on_string}:cds">
                   <filter>cds == "yes"</filter>
             </data>
@@ -39,11 +51,13 @@
             <param name="cds" value="yes" />
             <output name="outputfa" value="Gallus_gallus_RefSeq.fa" />
             <output name="outputcds" value="Gallus_gallus_RefSeq.cds" />
+            <output name="index_ix" value="Gallus_gallus_RefSeq.ix" />
       </test>
       <test>
             <param name="gbfile" value="Gallus_gallus_RefSeq.gb" />
             <param name="cds" value="no" />
             <output name="outputfa" value="Gallus_gallus_RefSeq.fa" />
+            <output name="index_ix" value="Gallus_gallus_RefSeq.ix" />
       </test>
   </tests> 
   <help>

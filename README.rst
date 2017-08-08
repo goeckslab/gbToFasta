@@ -1,6 +1,6 @@
 gbToFasta
 ==========================================================
-Galaxy wrapper for UCSC tools gbToFasta and raToTab. Convert GenBank records to fasta and create table with coding regions information for each mRNA record.
+Galaxy wrapper for UCSC tools gbToFasta and raToTab. Convert GenBank records to fasta, create TRIX index, and create table with coding regions information for each mRNA record.
 
 gbToFasta
 ---------
@@ -18,10 +18,21 @@ usage:
 
 raToTab
 --------
-raToTab - Create table with coding regions information for each mRNA record
 
-usage:
+* Create table with coding regions information for each mRNA record
+
   raToTab -cols=acc,cds gbfile.ra gbfile.cds
+
+
+* Create TRIX index
+
+ #. Create search index and metadata
+
+    raToTab -cols=acc,def gbfile.ra gbfile.info
+
+ #. Create TRIX index  
+
+    ixIxx gbfile.info gbfile.ix gbfile.ixx
 
 Source code:
 ============
