@@ -1,6 +1,6 @@
 name: gbtofasta
 owner: yating-l
-description: Convert GenBank records to fasta and Create table with coding regions information for each mRNA record
+description: Convert GenBank records to fasta, create table with coding regions information for each mRNA record and create a Trix index with coding regions information
 homepage_url: http://hgdownload.cse.ucsc.edu/admin/exe/
 type: unrestricted
 categories: 

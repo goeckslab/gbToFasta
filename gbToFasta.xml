@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tool id="gbtofasta" name="gbToFasta" version="1.0">
+<tool id="gbtofasta" name="gbToFasta" version="2.0">
     <description>Convert GenBank records to fasta and Create table with coding regions information for each mRNA record</description>
     <requirements>
       <requirement type="package" version="1.0">ucsc_tools_340_for_BLAT</requirement>
@@ -11,16 +11,6 @@
             outputra
             outputta
             '${gbfile}'
-    &&
-    raToTab
-            -cols=acc,def
-            outputra
-            outputinfo
-    &&
-    ixIxx
-            outputinfo
-            ${index_ix}
-            index_ixx
             
       #if $cds == "yes"
             && raToTab
@@ -29,35 +19,59 @@
                   cds_file
             && python $__tool_directory__/filter.py -f cds_file -o '${outputcds}'
       #end if
+
+      #if $trix == "yes"
+            && raToTab
+                  -cols=acc,def
+                  outputra
+                  outputinfo
+            && ixIxx
+                  outputinfo
+                  ${index_ix}
+                  ${index_ixx}
+      #end if
+
 ]]></command>
       <inputs>
             <param type="data" name="gbfile" format="genbank" />
             <param type="select" name="cds" label="Create table with coding regions information for each mRNA record" >
                   <option value="yes">Yes</option>
                   <option value="no">No</option>
+            </param> 
+            <param type="select" name="trix" label="Create a Trix index" >
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
             </param>
-                  
       </inputs>
       <outputs>
             <data format="fasta" name="outputfa" label="${tool.name} on ${on_string}:fasta"></data>
-            <data format="txt" name="index_ix" label="${tool.name} on ${on_string}:txt"></data>
             <data format="tabular" name="outputcds" label="${tool.name} on ${on_string}:cds">
                   <filter>cds == "yes"</filter>
             </data>
+            <collection name="trix_index" type="list" label="${tool.name} on ${on_string}:Trix index">
+                  <filter>trix == "yes"</filter>
+                  <data name="index_ix" format="txt" />
+                  <data name="index_ixx" format="txt" />
+            </collection>
       </outputs>
   <tests>
       <test>
             <param name="gbfile" value="Gallus_gallus_RefSeq.gb" />
             <param name="cds" value="yes" />
+            <param name="trix" value="yes" />
             <output name="outputfa" value="Gallus_gallus_RefSeq.fa" />
             <output name="outputcds" value="Gallus_gallus_RefSeq.cds" />
-            <output name="index_ix" value="Gallus_gallus_RefSeq.ix" />
+            <output_collection name="trix_index" type="list"> 
+                  <element name="index_ix" value="Gallus_gallus_RefSeq.ix" />
+                  <element name="index_ixx" value="Gallus_gallus_RefSeq.ixx" />
+            </output_collection>
       </test>
+
       <test>
             <param name="gbfile" value="Gallus_gallus_RefSeq.gb" />
             <param name="cds" value="no" />
+            <param name="trix" value="no" />
             <output name="outputfa" value="Gallus_gallus_RefSeq.fa" />
-            <output name="index_ix" value="Gallus_gallus_RefSeq.ix" />
       </test>
   </tests> 
   <help>
@@ -83,6 +97,11 @@ Create table with coding regions information for each mRNA record
 -----------------------------------------------------------------
 raToTab - Convert ra file to table.
 raToTab -cols=acc,cds gbfile.ra gbfile.cds
+
+Create a Trix index with coding regions information
+---------------------------------------------------
+ixIxx - Create indices for simple line-oriented file of format
+
 
 Source code:
 ============
